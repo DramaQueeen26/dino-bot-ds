@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { SlashCommand } from '../../interfaces';
+import { SlashCommand } from '../../../interfaces';
 
 const avatar: SlashCommand = {
   data: new SlashCommandBuilder()

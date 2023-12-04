@@ -1,5 +1,5 @@
 import { ChannelType, PermissionFlagsBits, SlashCommandBuilder } from "discord.js"
-import { SlashCommand } from '../../interfaces'
+import { SlashCommand } from '../../../interfaces'
 
 const clear: SlashCommand = {
   data: new SlashCommandBuilder()

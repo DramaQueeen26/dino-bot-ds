@@ -8,11 +8,13 @@ export class CommandsHandler {
 
   private readonly client: ClientWithCommands
   private readonly slashCommandsPath: string
+  private readonly slashCommandsCategories: string[]
   private readonly slashCommands: any[]
 
   constructor( client: ClientWithCommands ) {
     this.client = client
     this.slashCommandsPath = join( __dirname, "../../application/slashCommands" )
+    this.slashCommandsCategories = readdirSync( this.slashCommandsPath )
     this.slashCommands = []
   }
 
@@ -20,13 +22,17 @@ export class CommandsHandler {
 
     this.client.slashCommands = new Collection<string, SlashCommand>()
 
-    // * Cargar los slash commands
-    readdirSync( this.slashCommandsPath ).filter( file => file.endsWith( '.ts' ) )
+    this.slashCommandsCategories.forEach( category => {
+
+      // * Cargar los slash commands
+      readdirSync( `${this.slashCommandsPath}/${category}` ).filter( file => file.endsWith( '.ts' ) )
       .forEach( file => {
-        const command = require( `${ this.slashCommandsPath }/${ file }` ).default
+        const command = require( `${ this.slashCommandsPath }/${category}/${ file }` ).default
         this.slashCommands.push( command.data )
         this.client.slashCommands.set( command.data.name, command )
       })
+    
+    })
 
     const rest = new REST( { version: "10" } ).setToken( envs.TOKEN )
 
