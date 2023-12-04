@@ -1,5 +1,8 @@
-import { Client } from 'discord.js'
-import { Commands, ReadyEvent, InteractionCreateEvent, MessageCreateEvent } from '../handlers'
+
+import { Client } from 'discord.js';
+import { CommandsHandler } from './handlers';
+import { InteractionCreateEvent, ReadyEvent } from '../application/events';
+import { ClientWithCommands } from '../interfaces/client-commands.interface';
 
 interface Options {
   token: string
@@ -25,20 +28,23 @@ export class Server {
 
   async start() {
 
-    const client = new Client({ intents: [3276799] })
+    const client = new Client({ intents: [3276799] }) as ClientWithCommands
+
+    new CommandsHandler(client).init()
 
     try {
       
       // * Iniciar el bot
       await client.login( this.token )
 
-      // * Cargar Comandos
-      new Commands({ token: this.token, clientId: this.clientId }).init()
 
-      // * Cargar Eventos
+      // // * Cargar Comandos
+      // new Commands({ token: this.token, clientId: this.clientId }).init()
+
+      // // * Cargar Eventos
       new ReadyEvent({ client: client, activity: this.activity }).init()
-      new InteractionCreateEvent({ client }).init()
-      new MessageCreateEvent({ client }).init()
+      new InteractionCreateEvent(client).init()
+      // new MessageCreateEvent({ client }).init()
 
     } catch (error) {
       

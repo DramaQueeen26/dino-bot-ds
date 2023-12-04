@@ -8,7 +8,7 @@ import { Server } from './presentation/server';
 function main() {
 
   const server = new Server({ 
-    token: envs.TOKEN ,
+    token: envs.TOKEN,
     clientId: envs.CLIENT_ID,
     activity: envs.ACTIVITY
   })
