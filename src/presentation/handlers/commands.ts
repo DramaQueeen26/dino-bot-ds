@@ -40,7 +40,7 @@ export class CommandsHandler {
       body: this.slashCommands.map( command => command.toJSON() )
     })
     .then( ( data: any ) => {
-        console.log( `Loaded ${ data.length } slash command(s)` )
+        console.log( `Loaded ${ data.length } slash command(s) 🚀` )
     })
     .catch( error => {
         console.log( `Error: ${error}` )
